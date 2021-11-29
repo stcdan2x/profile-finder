@@ -5,7 +5,7 @@
 	--primary-color: #35dc9c;
 	--dark-color: #333333;
 	--light-color: #f4f4f4;
-	--danger-color: #dc3545;
+	--danger-color: #f55a6a;
 	--success-color: #28a745;
 }
 
@@ -375,6 +375,20 @@ table th {
 
 .navbar .welcome span {
 	margin-right: 0.6rem;
+}
+
+/*  Other Mesages and Notifications  */
+.notifier {
+	font-weight: bold;
+	padding: 0.8rem;
+	width: 100%;
+	border: 2px solid;
+	border-radius: 4px;
+}
+
+.warning {
+	background-color: rgb(255, 225, 188);
+	color: rgb(255, 140, 0);
 }
 
 /* Mobile Styles */
