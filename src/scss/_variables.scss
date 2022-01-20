@@ -1,0 +1,18 @@
+// GLOBAL COLORS
+$primary-color: rgb(53, 218, 155);
+$light-color: rgb(235, 235, 235);
+$dark-color: rgb(34, 31, 31);
+$danger-color: rgb(233, 96, 96);
+$success-color: rgb(36, 162, 55);
+
+// GRADIENTS
+$body-grad: linear-gradient(
+		to bottom left,
+		rgb(147, 147, 147) 0%,
+		rgb(133, 133, 133) 50%,
+		rgb(97, 97, 97) 100%
+	)
+	no-repeat fixed;
+
+// FONTS
+$main-font: Roboto, sans-serif;

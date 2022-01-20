@@ -4,7 +4,12 @@ import PropTypes from "prop-types";
 
 import UserItem from "./UserItem";
 
-const User = ({ users, loading }) => {
+interface UserProps {
+	users: { id: string; login: string; avatar_url: string; html_url: string }[];
+	loading: boolean;
+}
+
+const User = ({ users, loading }: UserProps) => {
 	return (
 		<Fragment>
 			{loading ? (
