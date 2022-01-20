@@ -1,6 +1,11 @@
 import PropTypes from "prop-types";
 
-const Navbar = ({ icon, title }) => {
+interface NavBarProps {
+	icon: string;
+	title: string;
+}
+
+const Navbar = ({ icon, title }: NavBarProps) => {
 	return (
 		<nav className="navbar bg-primary">
 			<h1>
