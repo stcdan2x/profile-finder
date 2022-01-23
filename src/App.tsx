@@ -1,28 +1,66 @@
 import axios from "axios";
-import { Component } from "react";
+import { Component, Fragment } from "react";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import "./App.scss";
 import Search from "./components/elements/Search";
 import Navbar from "./components/layout/Navbar";
 import User from "./components/users/User";
+import About from "./components/pages/About";
+import UserDetails from "./components/users/UserDetails";
 
-interface user {
-	id: string;
-	login: string;
+export interface user {
+	id: number;
+	name: string;
 	avatar_url: string;
+	location: string;
+	bio: string;
+	blog: string;
+	login: string;
 	html_url: string;
+	followers: string;
+	following: string;
+	public_repos: string;
+	public_gists: string;
+	hireable: boolean;
+	company: string;
+}
+
+export interface repo {
+	id: number;
+	html_url: string;
+	name: string;
 }
 
 interface AppState {
+	user: user;
 	users: user[];
 	loading: boolean;
 	searchAlertMsg: string;
+	repos: repo[];
 }
 
 class App extends Component {
 	state: AppState = {
+		user: {
+			id: 0,
+			name: "",
+			avatar_url: "",
+			location: "",
+			bio: "",
+			blog: "",
+			login: "",
+			html_url: "",
+			followers: "",
+			following: "",
+			public_repos: "",
+			public_gists: "",
+			hireable: true,
+			company: ""
+		},
 		users: [],
 		loading: false,
-		searchAlertMsg: ""
+		searchAlertMsg: "",
+		repos: []
 	};
 
 	/* async componentDidMount() {
@@ -49,25 +87,70 @@ class App extends Component {
 		}
 	};
 
+	getUserDetails = async (username: string) => {
+		this.setState({ loading: true });
+		const res = await axios.get(`https://api.github.com/users/${username}`);
+		console.log(res.data);
+
+		this.setState({ user: res.data, loading: false });
+	};
+
+	getUserRepos = async (username: string) => {
+		this.setState({ loading: true });
+		const res = await axios.get(
+			`https://api.github.com/users/${username}/repos?per_page=10&sort=created:asc`
+		);
+		console.log(res.data);
+
+		this.setState({ repos: res.data, loading: false });
+	};
+
 	clearSearchResults = () => {
 		this.setState({ users: [], loading: false });
 	};
 
 	render() {
 		return (
-			<div className="App">
-				<Navbar />
-				<div className="container">
-					<Search
-						findUser={this.findUser}
-						clearSearchResults={this.clearSearchResults}
-						loading={this.state.loading}
-						showClearBtn={this.state.users.length > 0 ? true : false}
-						searchAlertMsg={this.state.searchAlertMsg}
-					/>
-					<User users={this.state.users} loading={this.state.loading} />
+			<BrowserRouter>
+				<div className="App">
+					<Navbar />
+					<div className="container">
+						<Switch>
+							<Route
+								exact
+								path="/"
+								render={(props) => (
+									<Fragment>
+										<Search
+											findUser={this.findUser}
+											clearSearchResults={this.clearSearchResults}
+											loading={this.state.loading}
+											showClearBtn={this.state.users.length > 0 ? true : false}
+											searchAlertMsg={this.state.searchAlertMsg}
+										/>
+										<User users={this.state.users} loading={this.state.loading} />
+									</Fragment>
+								)}
+							/>
+							<Route exact path="/about" component={About} />
+							<Route
+								exact
+								path="/user/:login"
+								render={(props) => (
+									<UserDetails
+										{...props}
+										getUserDetails={this.getUserDetails}
+										getUserRepos={this.getUserRepos}
+										user={this.state.user}
+										repos={this.state.repos}
+										loading={this.state.loading}
+									/>
+								)}
+							/>
+						</Switch>
+					</div>
 				</div>
-			</div>
+			</BrowserRouter>
 		);
 	}
 }
