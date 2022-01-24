@@ -1,23 +1,22 @@
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 interface UserItemProps {
 	user: {
-		id: string;
 		login: string;
 		avatar_url: string;
-		html_url: string;
 	};
 }
 
-const UserItem = ({ user: { login, avatar_url, html_url } }: UserItemProps) => {
+const UserItem = ({ user: { login, avatar_url } }: UserItemProps) => {
 	return (
 		<div className="card text-center">
 			<img src={avatar_url} alt="" className="round-img" style={{ width: "60px" }} />
 			<h3>{login}</h3>
 			<div>
-				<a href={html_url} className="btn btn-dark btn-sm my-1">
+				<Link to={`/user/${login}`} className="btn btn-dark btn-sm my-1">
 					More
-				</a>
+				</Link>
 			</div>
 		</div>
 	);

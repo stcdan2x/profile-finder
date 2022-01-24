@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import UserItem from "./UserItem";
 
 interface UserProps {
-	users: { id: string; login: string; avatar_url: string; html_url: string }[];
+	users: { id: number; login: string; avatar_url: string; html_url: string }[];
 	loading: boolean;
 }
 
