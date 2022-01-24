@@ -1,11 +1,8 @@
-import axios from "axios";
-import { Fragment, useState } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import "./App.scss";
-import Search from "./components/elements/Search";
 import Navbar from "./components/layout/Navbar";
-import User from "./components/users/User";
 import About from "./components/pages/About";
+import Home from "./components/pages/Home";
 import UserDetails from "./components/users/UserDetails";
 import GithubState from "./context/github/GithubState";
 
@@ -41,11 +38,10 @@ export interface repo {
 // }
 
 const App = () => {
-	const [user, setUser] = useState<user>({});
-	const [users, setUsers] = useState<user[]>([]);
-	const [loading, setLoading] = useState(false);
-	const [searchAlertMsg, setSearchAlertMsg] = useState("");
-	const [repos, setRepos] = useState<repo[]>([]);
+	// const [user, setUser] = useState<user>({});
+	// const [users, setUsers] = useState<user[]>([]);
+	// const [loading, setLoading] = useState(false);
+	// const [repos, setRepos] = useState<repo[]>([]);
 
 	// const findUser = async (textVal: string) => {
 	// 	setLoading(true);
@@ -63,30 +59,16 @@ const App = () => {
 	// 	}
 	// };
 
-	const getUserDetails = async (username: string) => {
-		setLoading(true);
-		const res = await axios.get(`https://api.github.com/users/${username}`);
-		console.log(res.data);
+	// const getUserRepos = async (username: string) => {
+	// 	setLoading(true);
 
-		setUser(res.data);
-		setLoading(false);
-	};
+	// 	const res = await axios.get(
+	// 		`https://api.github.com/users/${username}/repos?per_page=10&sort=created:asc`
+	// 	);
 
-	const getUserRepos = async (username: string) => {
-		setLoading(true);
-
-		const res = await axios.get(
-			`https://api.github.com/users/${username}/repos?per_page=10&sort=created:asc`
-		);
-
-		setRepos(res.data);
-		setLoading(false);
-	};
-
-	const clearSearchResults = () => {
-		setUsers([]);
-		setLoading(false);
-	};
+	// 	setRepos(res.data);
+	// 	setLoading(false);
+	// };
 
 	return (
 		<GithubState>
@@ -95,34 +77,9 @@ const App = () => {
 					<Navbar />
 					<div className="container">
 						<Switch>
-							<Route
-								exact
-								path="/"
-								render={(props) => (
-									<Fragment>
-										<Search
-											clearSearchResults={clearSearchResults}
-											showClearBtn={users.length > 0 ? true : false}
-										/>
-										<User users={users} loading={loading} />
-									</Fragment>
-								)}
-							/>
+							<Route exact path="/" component={Home} />
 							<Route exact path="/about" component={About} />
-							<Route
-								exact
-								path="/user/:login"
-								render={(props) => (
-									<UserDetails
-										{...props}
-										getUserDetails={getUserDetails}
-										getUserRepos={getUserRepos}
-										user={user}
-										repos={repos}
-										loading={loading}
-									/>
-								)}
-							/>
+							<Route exact path="/user/:login" component={UserDetails} />
 						</Switch>
 					</div>
 				</div>

@@ -1,14 +1,8 @@
 import React, { useContext, useState } from "react";
-import Loader from "./Loader";
 import Message from "./Message";
 import GithubContext from "../../context/github/githubContext";
 
-interface SearchProps {
-	clearSearchResults: () => void;
-	showClearBtn: boolean;
-}
-
-const Search = ({ clearSearchResults, showClearBtn }: SearchProps) => {
+const Search = () => {
 	const githubContext = useContext(GithubContext);
 
 	const [text, setText] = useState<string>("");
@@ -32,32 +26,26 @@ const Search = ({ clearSearchResults, showClearBtn }: SearchProps) => {
 	};
 
 	return (
-		<div>
-			{githubContext.loading ? (
-				<Loader />
-			) : (
-				<div>
-					{message && <Message variant="notifier warning">{message}</Message>}
-					{githubContext.searchAlertMsg && (
-						<div className="notifier warning">{githubContext.searchAlertMsg}</div>
-					)}
-					<form className="form" onSubmit={submitHandler}>
-						<input
-							type="text"
-							placeholder="Search User"
-							name="text"
-							value={text}
-							onChange={changeHandler}
-						/>
-						<input type="submit" value="Search" className="btn btn-dark btn-block" />
-					</form>
+		<div className="full-w">
+			{message && <Message variant="notifier warning">{message}</Message>}
+			{githubContext.searchAlertMsg && (
+				<div className="notifier warning">{githubContext.searchAlertMsg}</div>
+			)}
+			<form className="form" onSubmit={submitHandler}>
+				<input
+					type="text"
+					placeholder="Search User"
+					name="text"
+					value={text}
+					onChange={changeHandler}
+				/>
+				<input type="submit" value="Search" className="btn btn-dark btn-block" />
+			</form>
 
-					{showClearBtn && (
-						<button className="btn btn-light btn-block" onClick={clearSearchResults}>
-							Clear
-						</button>
-					)}
-				</div>
+			{githubContext.showClearBtn && (
+				<button className="btn btn-light btn-block" onClick={githubContext.clearSearchResults}>
+					Clear
+				</button>
 			)}
 		</div>
 	);

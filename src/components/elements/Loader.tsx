@@ -1,5 +1,7 @@
+import Message from "./Message";
+
 const Loader = () => {
-	return <div>LOADING ...</div>;
+	return <Message variant="modal">LOADING ...</Message>;
 };
 
 export default Loader;

@@ -1,6 +1,13 @@
 import axios from "axios";
 import { useReducer } from "react";
-import { SEARCH_USERS, SET_LOADING, SET_SEARCH_MSG } from "../actionTypes";
+import {
+	CLEAR_USERS,
+	GET_REPOS,
+	GET_USER,
+	SEARCH_USERS,
+	SET_LOADING,
+	SET_SEARCH_MSG
+} from "../actionTypes";
 import GithubContext from "./githubContext";
 import GithubReducer from "./githubReducer";
 
@@ -10,7 +17,8 @@ const GithubState = (props: any) => {
 		user: {},
 		repos: [],
 		loading: false,
-		searchAlertMsg: ""
+		searchAlertMsg: "",
+		showClearBtn: false
 	};
 
 	const [state, dispatch] = useReducer(GithubReducer, initialState);
@@ -30,9 +38,36 @@ const GithubState = (props: any) => {
 		} else {
 			dispatch({
 				type: SET_SEARCH_MSG,
+				showClearBtn: false,
 				msg: "No matches using you search criteria"
 			});
 		}
+	};
+
+	const getUserDetails = async (username: string) => {
+		dispatch({ type: SET_LOADING });
+
+		const res = await axios.get(`https://api.github.com/users/${username}`);
+		console.log(res.data);
+
+		dispatch({
+			type: GET_USER,
+			payload: res.data
+		});
+	};
+
+	const getUserRepos = async (username: string) => {
+		dispatch({ type: SET_LOADING });
+
+		const res = await axios.get(
+			`https://api.github.com/users/${username}/repos?per_page=10&sort=created:asc`
+		);
+
+		dispatch({ type: GET_REPOS, payload: res.data });
+	};
+
+	const clearSearchResults = () => {
+		dispatch({ type: CLEAR_USERS });
 	};
 
 	//const setLoading = () => dispatch({ type: SET_LOADING });
@@ -45,7 +80,11 @@ const GithubState = (props: any) => {
 				repos: state.repos,
 				loading: state.loading,
 				searchAlertMsg: state.searchAlertMsg,
-				findUser
+				showClearBtn: state.showClearBtn,
+				findUser,
+				clearSearchResults,
+				getUserDetails,
+				getUserRepos
 			}}>
 			{props.children}
 		</GithubContext.Provider>

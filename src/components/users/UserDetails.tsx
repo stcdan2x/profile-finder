@@ -1,6 +1,6 @@
-import { Fragment, useEffect } from "react";
+import { Fragment, useContext, useEffect } from "react";
 import { Link, RouteComponentProps } from "react-router-dom";
-import { repo, user } from "../../App";
+import GithubContext from "../../context/github/githubContext";
 import Loader from "../elements/Loader";
 import Repos from "./Repos";
 
@@ -9,25 +9,15 @@ interface MParams {
 }
 
 interface UserDetailsProps extends RouteComponentProps<MParams> {
-	getUserDetails: (text: string) => void;
-	getUserRepos: (text: string) => void;
-	loading: boolean;
-	user: user;
-	repos: repo[];
 	match: any;
 }
 
-const UserDetails = ({
-	getUserDetails,
-	getUserRepos,
-	user,
-	loading,
-	match,
-	repos
-}: UserDetailsProps) => {
+const UserDetails = ({ match }: UserDetailsProps) => {
+	const githubContext = useContext(GithubContext);
+
 	useEffect(() => {
-		getUserRepos(match.params.login);
-		getUserDetails(match.params.login);
+		githubContext.getUserRepos(match.params.login);
+		githubContext.getUserDetails(match.params.login);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [match.params.login]);
 
@@ -45,9 +35,9 @@ const UserDetails = ({
 		public_gists,
 		hireable,
 		company
-	} = user;
+	} = githubContext.user;
 
-	return loading ? (
+	return githubContext.loading ? (
 		<Loader />
 	) : (
 		<>
@@ -109,7 +99,7 @@ const UserDetails = ({
 				<div className="badge badge-light">Public Repos: {public_repos}</div>
 				<div className="badge badge-dark">Public Gists: {public_gists}</div>
 			</div>
-			<Repos repos={repos} />
+			<Repos />
 		</>
 	);
 };

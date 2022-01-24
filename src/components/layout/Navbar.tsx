@@ -2,16 +2,17 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
 interface NavBarProps {
-	icon: string;
+	// icon: string;
 	title: string;
 }
 
-const Navbar = ({ icon, title }: NavBarProps) => {
+const Navbar = ({ /* icon,  */ title }: NavBarProps) => {
 	return (
 		<nav className="navbar bg-primary">
 			<h1>
 				<Link to="/">
-					<i className={icon} /> {title}
+					{/* <i className={icon} />  */}
+					{title}
 				</Link>
 			</h1>
 			<div className="nav_menu">
@@ -24,13 +25,13 @@ const Navbar = ({ icon, title }: NavBarProps) => {
 };
 
 Navbar.defaultProps = {
-	title: "Profile Lookup",
-	icon: "fas fa-user-circle"
+	title: "Profile Lookup"
+	// icon: "fas fa-user-circle"
 };
 
 Navbar.propTypes = {
-	title: PropTypes.string.isRequired,
-	icon: PropTypes.string.isRequired
+	title: PropTypes.string.isRequired
+	// icon: PropTypes.string.isRequired
 };
 
 export default Navbar;

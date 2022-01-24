@@ -1,12 +1,17 @@
-import React from "react";
+import { useContext } from "react";
 import { repo } from "../../App";
+import GithubContext from "../../context/github/githubContext";
 import RepoItems from "./RepoItems";
 
-interface ReposProps {
-	repos: repo[];
-}
+// interface ReposProps {
+// 	repos: repo[];
+// }
 
-const Repos = ({ repos }: ReposProps) => {
+const Repos = () => {
+	const githubContext = useContext(GithubContext);
+
+	const repos: repo[] = githubContext.repos;
+
 	return (
 		<>
 			{repos.map((repo) => (

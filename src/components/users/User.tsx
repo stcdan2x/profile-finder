@@ -1,9 +1,8 @@
 import { Fragment, useContext } from "react";
 import Loader from "../elements/Loader";
-import PropTypes from "prop-types";
 import UserItem from "./UserItem";
 import GithubContext from "../../context/github/githubContext";
-
+// import PropTypes from "prop-types";
 //import { user } from "../../App";
 
 // interface UserProps {
@@ -29,10 +28,10 @@ const User = () => {
 	);
 };
 
-User.propTypes = {
-	users: PropTypes.array.isRequired,
-	loading: PropTypes.bool.isRequired
-};
+// User.propTypes = {
+// 	users: PropTypes.array.isRequired,
+// 	loading: PropTypes.bool.isRequired
+// };
 
 const collectionStyle = {
 	display: "grid",
