@@ -1,11 +1,6 @@
-import React from "react";
-import { repo } from "../../App";
+import { repo } from "../../context/github/githubContext";
 
-interface RepoItemsProps {
-	repo: repo;
-}
-
-const RepoItems = ({ repo }: RepoItemsProps) => {
+const RepoItems = ({ repo }: { repo: repo }) => {
 	return (
 		<div className="card">
 			<h3>

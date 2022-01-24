@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useReducer } from "react";
+import React, { useReducer } from "react";
 import {
 	CLEAR_USERS,
 	GET_REPOS,
@@ -11,7 +11,7 @@ import {
 import GithubContext from "./githubContext";
 import GithubReducer from "./githubReducer";
 
-const GithubState = (props: any) => {
+const GithubState = ({ children }: { children: React.ReactNode }) => {
 	const initialState = {
 		users: [],
 		user: {},
@@ -86,7 +86,7 @@ const GithubState = (props: any) => {
 				getUserDetails,
 				getUserRepos
 			}}>
-			{props.children}
+			{children}
 		</GithubContext.Provider>
 	);
 };
