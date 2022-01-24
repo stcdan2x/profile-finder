@@ -1,12 +1,8 @@
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import { user } from "../../App";
+import { user } from "../../context/github/githubContext";
 
-interface UserItemProps {
-	user: user;
-}
-
-const UserItem = ({ user }: UserItemProps) => {
+const UserItem = ({ user }: { user: user }) => {
 	return (
 		<div className="card text-center">
 			<img src={user.avatar_url} alt="" className="round-img" style={{ width: "60px" }} />
