@@ -8,9 +8,7 @@ interface MParams {
 	login: string;
 }
 
-interface UserDetailsProps extends RouteComponentProps<MParams> {
-	match: any;
-}
+interface UserDetailsProps extends RouteComponentProps<MParams> {}
 
 const UserDetails = ({ match }: UserDetailsProps) => {
 	const githubContext = useContext(GithubContext);

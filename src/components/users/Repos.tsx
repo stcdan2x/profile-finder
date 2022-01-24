@@ -1,6 +1,5 @@
 import { useContext } from "react";
-import { repo } from "../../App";
-import GithubContext from "../../context/github/githubContext";
+import GithubContext, { repo } from "../../context/github/githubContext";
 import RepoItems from "./RepoItems";
 
 // interface ReposProps {

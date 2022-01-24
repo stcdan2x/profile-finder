@@ -18,7 +18,7 @@ const Search = () => {
 		if (!text) {
 			setMessage("Please type-in your search criteria!");
 			return;
-		} else {
+		} else if (githubContext) {
 			githubContext.findUser(text);
 			setText("");
 			setMessage("");

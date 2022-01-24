@@ -1,52 +1,72 @@
 import { createContext } from "react";
 
-interface user {
-	id?: number;
-	name?: string;
-	avatar_url?: string;
-	location?: string;
-	bio?: string;
-	blog?: string;
-	login?: string;
-	html_url?: string;
-	followers?: string;
-	following?: string;
-	public_repos?: string;
-	public_gists?: string;
-	hireable?: boolean;
-	company?: string;
+export interface user {
+	id: number;
+	name: string;
+	avatar_url: string;
+	location: string;
+	bio: string;
+	blog: string;
+	login: string;
+	html_url: string;
+	followers: string;
+	following: string;
+	public_repos: string;
+	public_gists: string;
+	hireable: boolean;
+	company: string;
 }
 
-interface repo {
+export interface repo {
 	id: number;
 	html_url: string;
 	name: string;
 }
 
-interface githubContextTypes {
-	users?: user[];
-	user?: user;
-	repos?: repo[];
-	loading?: boolean;
-	searchAlertMsg?: string;
-	showClearBtn?: boolean;
-	findUser?: () => void;
-	clearSearchResults?: () => void;
-	getUserDetails?: () => void;
-	getUserRepos?: () => void;
+export interface githubCOntextState {
+	users: user[];
+	user: user;
+	repos: repo[];
+	loading: boolean;
+	searchAlertMsg: string;
+	showClearBtn: boolean;
 }
 
-const githubContext: githubContextTypes = createContext({
+export interface githubContextTypes extends githubCOntextState {
+	findUser: (text: string) => void;
+	clearSearchResults: () => void;
+	getUserDetails: (text: string) => void;
+	getUserRepos: (text: string) => void;
+}
+
+const contextDefault: githubContextTypes = {
 	users: [],
-	user: {},
+	user: {
+		id: 0,
+		name: "",
+		avatar_url: "",
+		location: "",
+		bio: "",
+		blog: "",
+		login: "",
+		html_url: "",
+		followers: "",
+		following: "",
+		public_repos: "",
+		public_gists: "",
+		hireable: false,
+		company: ""
+	},
 	repos: [],
 	loading: false,
 	searchAlertMsg: "",
 	showClearBtn: false,
-	findUser: () => {},
+	findUser: (text) => {},
 	clearSearchResults: () => {},
 	getUserDetails: () => {},
 	getUserRepos: () => {}
-});
+};
+
+const githubContext = createContext(contextDefault);
 
 export default githubContext;
