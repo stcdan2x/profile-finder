@@ -1,22 +1,26 @@
-import React, { Fragment } from "react";
+import { Fragment, useContext } from "react";
 import Loader from "../elements/Loader";
 import PropTypes from "prop-types";
-
 import UserItem from "./UserItem";
+import GithubContext from "../../context/github/githubContext";
 
-interface UserProps {
-	users: { id: number; login: string; avatar_url: string; html_url: string }[];
-	loading: boolean;
-}
+//import { user } from "../../App";
 
-const User = ({ users, loading }: UserProps) => {
+// interface UserProps {
+// 	users: user[];
+// 	loading: boolean;
+// }
+
+const User = () => {
+	const githubContext = useContext(GithubContext);
+
 	return (
 		<Fragment>
-			{loading ? (
+			{githubContext.loading ? (
 				<Loader />
 			) : (
 				<div style={collectionStyle}>
-					{users.map((user) => (
+					{githubContext.users.map((user) => (
 						<UserItem key={user.id} user={user} />
 					))}
 				</div>

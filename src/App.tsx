@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Component, Fragment } from "react";
+import { Fragment, useState } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import "./App.scss";
 import Search from "./components/elements/Search";
@@ -7,22 +7,23 @@ import Navbar from "./components/layout/Navbar";
 import User from "./components/users/User";
 import About from "./components/pages/About";
 import UserDetails from "./components/users/UserDetails";
+import GithubState from "./context/github/GithubState";
 
 export interface user {
-	id: number;
-	name: string;
-	avatar_url: string;
-	location: string;
-	bio: string;
-	blog: string;
-	login: string;
-	html_url: string;
-	followers: string;
-	following: string;
-	public_repos: string;
-	public_gists: string;
-	hireable: boolean;
-	company: string;
+	id?: number;
+	name?: string;
+	avatar_url?: string;
+	location?: string;
+	bio?: string;
+	blog?: string;
+	login?: string;
+	html_url?: string;
+	followers?: string;
+	following?: string;
+	public_repos?: string;
+	public_gists?: string;
+	hireable?: boolean;
+	company?: string;
 }
 
 export interface repo {
@@ -31,86 +32,64 @@ export interface repo {
 	name: string;
 }
 
-interface AppState {
-	user: user;
-	users: user[];
-	loading: boolean;
-	searchAlertMsg: string;
-	repos: repo[];
-}
+// interface AppState {
+// 	user: user;
+// 	users: user[];
+// 	loading: boolean;
+// 	searchAlertMsg: string;
+// 	repos: repo[];
+// }
 
-class App extends Component {
-	state: AppState = {
-		user: {
-			id: 0,
-			name: "",
-			avatar_url: "",
-			location: "",
-			bio: "",
-			blog: "",
-			login: "",
-			html_url: "",
-			followers: "",
-			following: "",
-			public_repos: "",
-			public_gists: "",
-			hireable: true,
-			company: ""
-		},
-		users: [],
-		loading: false,
-		searchAlertMsg: "",
-		repos: []
-	};
+const App = () => {
+	const [user, setUser] = useState<user>({});
+	const [users, setUsers] = useState<user[]>([]);
+	const [loading, setLoading] = useState(false);
+	const [searchAlertMsg, setSearchAlertMsg] = useState("");
+	const [repos, setRepos] = useState<repo[]>([]);
 
-	/* async componentDidMount() {
-		this.setState({ loading: true });
+	// const findUser = async (textVal: string) => {
+	// 	setLoading(true);
 
-		const res = await axios.get("https://api.github.com/users");
+	// 	const res = await axios.get(`https://api.github.com/search/users?q=${textVal}`);
+	// 	console.log(res.data.items);
 
-		this.setState({ users: res.data, loading: false });
-	} */
+	// 	setUsers(res.data.items);
+	// 	setLoading(false);
 
-	findUser = async (textVal: string) => {
-		this.setState({ loading: true });
-		/* this.setState({ searchAlertMsg: "" }); */
+	// 	if (res.data.items.length > 0) {
+	// 		setSearchAlertMsg("");
+	// 	} else {
+	// 		setSearchAlertMsg("No matches using you search criteria");
+	// 	}
+	// };
 
-		const res = await axios.get(`https://api.github.com/search/users?q=${textVal}`);
-		console.log(res.data.items);
-
-		this.setState({ users: res.data.items, loading: false });
-
-		if (res.data.items.length > 0) {
-			this.setState({ searchAlertMsg: "" });
-		} else {
-			this.setState({ searchAlertMsg: "No matches using you search criteria" });
-		}
-	};
-
-	getUserDetails = async (username: string) => {
-		this.setState({ loading: true });
+	const getUserDetails = async (username: string) => {
+		setLoading(true);
 		const res = await axios.get(`https://api.github.com/users/${username}`);
 		console.log(res.data);
 
-		this.setState({ user: res.data, loading: false });
+		setUser(res.data);
+		setLoading(false);
 	};
 
-	getUserRepos = async (username: string) => {
-		this.setState({ loading: true });
+	const getUserRepos = async (username: string) => {
+		setLoading(true);
+
 		const res = await axios.get(
 			`https://api.github.com/users/${username}/repos?per_page=10&sort=created:asc`
 		);
-		console.log(res.data);
 
-		this.setState({ repos: res.data, loading: false });
+		setRepos(res.data);
+		setLoading(false);
 	};
 
-	clearSearchResults = () => {
-		this.setState({ users: [], loading: false });
+	const clearSearchResults = () => {
+		setUsers([]);
+		setLoading(false);
 	};
 
-	render() {
-		return (
+	return (
+		<GithubState>
 			<BrowserRouter>
 				<div className="App">
 					<Navbar />
@@ -122,13 +101,10 @@ class App extends Component {
 								render={(props) => (
 									<Fragment>
 										<Search
-											findUser={this.findUser}
-											clearSearchResults={this.clearSearchResults}
-											loading={this.state.loading}
-											showClearBtn={this.state.users.length > 0 ? true : false}
-											searchAlertMsg={this.state.searchAlertMsg}
+											clearSearchResults={clearSearchResults}
+											showClearBtn={users.length > 0 ? true : false}
 										/>
-										<User users={this.state.users} loading={this.state.loading} />
+										<User users={users} loading={loading} />
 									</Fragment>
 								)}
 							/>
@@ -139,11 +115,11 @@ class App extends Component {
 								render={(props) => (
 									<UserDetails
 										{...props}
-										getUserDetails={this.getUserDetails}
-										getUserRepos={this.getUserRepos}
-										user={this.state.user}
-										repos={this.state.repos}
-										loading={this.state.loading}
+										getUserDetails={getUserDetails}
+										getUserRepos={getUserRepos}
+										user={user}
+										repos={repos}
+										loading={loading}
 									/>
 								)}
 							/>
@@ -151,8 +127,8 @@ class App extends Component {
 					</div>
 				</div>
 			</BrowserRouter>
-		);
-	}
-}
+		</GithubState>
+	);
+};
 
 export default App;

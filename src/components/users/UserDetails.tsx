@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import { Fragment, useEffect } from "react";
 import { Link, RouteComponentProps } from "react-router-dom";
 import { repo, user } from "../../App";
 import Loader from "../elements/Loader";
@@ -14,6 +14,7 @@ interface UserDetailsProps extends RouteComponentProps<MParams> {
 	loading: boolean;
 	user: user;
 	repos: repo[];
+	match: any;
 }
 
 const UserDetails = ({
@@ -63,7 +64,7 @@ const UserDetails = ({
 				<div className="all-center">
 					<img src={avatar_url} className="round-img" alt="" style={{ width: "150px" }} />
 					<h1>{name}</h1>
-					<p>Location: {location}</p>
+					{location && <p>Location: {location}</p>}
 				</div>
 				<div>
 					{bio && (
