@@ -7,8 +7,9 @@ import {
 	SET_SEARCH_MSG,
 	STOP_LOADING
 } from "../actionTypes";
+import { githubCOntextState } from "./githubContext";
 
-const GithubReducer = (state: any, action: any) => {
+const GithubReducer = (state: githubCOntextState, action: any) => {
 	switch (action.type) {
 		case SET_LOADING:
 			return {

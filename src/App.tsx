@@ -6,28 +6,28 @@ import Home from "./components/pages/Home";
 import UserDetails from "./components/users/UserDetails";
 import GithubState from "./context/github/GithubState";
 
-export interface user {
-	id?: number;
-	name?: string;
-	avatar_url?: string;
-	location?: string;
-	bio?: string;
-	blog?: string;
-	login?: string;
-	html_url?: string;
-	followers?: string;
-	following?: string;
-	public_repos?: string;
-	public_gists?: string;
-	hireable?: boolean;
-	company?: string;
-}
+// export interface user {
+// 	id?: number;
+// 	name?: string;
+// 	avatar_url?: string;
+// 	location?: string;
+// 	bio?: string;
+// 	blog?: string;
+// 	login?: string;
+// 	html_url?: string;
+// 	followers?: string;
+// 	following?: string;
+// 	public_repos?: string;
+// 	public_gists?: string;
+// 	hireable?: boolean;
+// 	company?: string;
+// }
 
-export interface repo {
-	id: number;
-	html_url: string;
-	name: string;
-}
+// export interface repo {
+// 	id: number;
+// 	html_url: string;
+// 	name: string;
+// }
 
 // interface AppState {
 // 	user: user;
